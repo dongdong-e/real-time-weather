@@ -1,0 +1,20 @@
+steps:
+  # Docker 이미지 빌드
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'gcr.io/$PROJECT_ID/weather-monitor:$COMMIT_SHA', '.']
+  
+  # 컨테이너 레지스트리에 푸시
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/weather-monitor:$COMMIT_SHA']
+  
+  # 최신 태그로 태그 지정
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['tag', 'gcr.io/$PROJECT_ID/weather-monitor:$COMMIT_SHA', 'gcr.io/$PROJECT_ID/weather-monitor:latest']
+  
+  # 최신 태그 푸시
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'gcr.io/$PROJECT_ID/weather-monitor:latest']
+
+images:
+  - 'gcr.io/$PROJECT_ID/weather-monitor:$COMMIT_SHA'
+  - 'gcr.io/$PROJECT_ID/weather-monitor:latest' 

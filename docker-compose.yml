@@ -1,0 +1,16 @@
+version: '3.8'
+
+services:
+  weather-monitor:
+    build: .
+    container_name: weather-monitor
+    restart: unless-stopped
+    volumes:
+      - ./logs:/app/logs
+    environment:
+      - TZ=Asia/Seoul
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "10m"
+        max-file: "3" 
